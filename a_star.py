@@ -130,9 +130,10 @@ def aStar (start_point, end_point):
 
 
             if(current_state[1] != end_point[1]):
-                
-                # bestPath[current_state[0]-1][current_state[1]][0] = bestPath[current_state[0]-1][current_state[1]][0] + 4
-                bestPath[current_state[0]-1][end_point[1]] = bestPath[current_state[0]-1][current_state[1]]
+
+                # bestPath[current_state[0]-1][end_point[1]] = bestPath[current_state[0]-1][current_state[1]]
+                bestPath[current_state[0]-1][end_point[1]] = [current_state[0], current_state[1]]
+
                 lowerCost[current_state[0]-1][current_state[1]] += 0.0666667
         
                 lowerCost[current_state[0]-1][end_point[1]] = lowerCost[current_state[0]-1][current_state[1]]
@@ -165,12 +166,17 @@ def aStar (start_point, end_point):
 
                 #Se o custo real calculado para chegar a esse estado for menor do que tem-se armazenado(ou se não tiver sido calculado previamente), atualiza-se ele
                 if(lowerCost[connection[0]-1][thisLine] == -1) or (cost <= lowerCost[connection[0]-1][thisLine]):
-
+                    
                     #Atualiza menor custo real para esse estado
                     lowerCost[connection[0]-1][thisLine] = cost
 
-                    #Atualiza o estado que leva a esse estado com esse menor custo
-                    bestPath[connection[0]-1][thisLine] = [current_state[0], current_state[1]]
+                    if(changeLine):
+                        bestPath[connection[0]-1][thisLine] = [current_state[0], thisLine]
+                        bestPath[current_state[0]-1][thisLine] = [current_state[0], current_state[1]]
+
+                    else:
+                        #Atualiza o estado que leva a esse estado com esse menor custo
+                        bestPath[connection[0]-1][thisLine] = [current_state[0], current_state[1]]
                     
                 #Insere na nossa lista em ordem o estado (conexao, linha)
                     counter = -1
